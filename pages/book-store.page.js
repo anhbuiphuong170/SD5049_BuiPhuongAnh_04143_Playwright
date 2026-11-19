@@ -1,3 +1,5 @@
+import { clickAndAcceptAlert } from '../helpers/click-and-accept-alert.js';
+
 export class BookStorePage {
   constructor(page) {
     this.page = page;
@@ -14,5 +16,17 @@ export class BookStorePage {
 
   bookTitle(title) {
     return this.page.getByText(title, { exact: true });
+  }
+
+  async addToCollection(title) {
+    await this.open();
+    await this.bookTitle(title).click();
+
+    const addButton = this.page.getByRole('button', {
+      name: 'Add To Your Collection',
+      exact: true,
+    });
+
+    return clickAndAcceptAlert(this.page, addButton);
   }
 }
